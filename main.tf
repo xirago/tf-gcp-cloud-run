@@ -7,7 +7,7 @@ resource "google_cloud_run_v2_service" "this" {
 
   template {
     containers {
-      image = var.run_container_uri
+      image = var.run_container_url
     }
   }
 }
