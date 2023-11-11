@@ -15,5 +15,11 @@ terraform {
 }
 
 provider "google" {
+  project = var.project_id
+  region  = var.region
 
+  default_labels = {
+    tf-repo = "xirago_tf-gcp-cloud-run"
+    summary = var.name_prefix
+  }
 }

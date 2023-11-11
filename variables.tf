@@ -12,10 +12,3 @@ variable "name_prefix" {
   default     = "vm-task"
   description = "A task designation to be used a prefix in resource naming"
 }
-
-/*
-variable "x" {
-  type        = string
-  default     = ""
-  description = ""
-} */
