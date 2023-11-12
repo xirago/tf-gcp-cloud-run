@@ -4,7 +4,7 @@ resource "google_compute_global_address" "this" {
 }
 
 resource "google_compute_backend_service" "cloud_run" {
-  name                  = "${var.name_prefix}-cloud_run"
+  name                  = "${var.name_prefix}-cloud-run"
   load_balancing_scheme = "EXTERNAL_MANAGED"
 
   backend {
