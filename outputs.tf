@@ -1,3 +1,9 @@
-output "cloudrun_service_uri" {
-  value = google_cloud_run_v2_service.this.uri
+output "glb_load_balancer_url" {
+  value = "https://${google_compute_global_address.this.address}"
+}
+
+output "hide_private_key" {
+  value       = tls_private_key.this
+  description = "Hide the generated private key for TLS cert."
+  sensitive   = true
 }

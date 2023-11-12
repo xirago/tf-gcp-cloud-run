@@ -27,3 +27,9 @@ variable "run_container_url" {
   default     = "us-docker.pkg.dev/cloudrun/container/hello"
   description = "URL of the Container image in Google Container Registry or Google Artifact Registry"
 }
+
+variable "tls_cert_domains" {
+  type        = list(string)
+  default     = ["www.self-signed-tls.uk"]
+  description = "A list of DNS names to be added to the TLS certificate. The Common Name will be set to the first string entry"
+}
