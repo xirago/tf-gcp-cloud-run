@@ -11,3 +11,13 @@ resource "google_cloud_run_v2_service" "this" {
     }
   }
 }
+
+resource "google_compute_region_network_endpoint_group" "cloud_run" {
+  name                  = "cloud-run"
+  region                = var.region
+  network_endpoint_type = "SERVERLESS"
+
+  cloud_run {
+    service = google_cloud_run_v2_service.this.name
+  }
+}
