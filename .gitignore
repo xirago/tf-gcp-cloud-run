@@ -35,4 +35,3 @@ terraform.rc
 # example: *tfplan*
 *.plan
 *.out
-

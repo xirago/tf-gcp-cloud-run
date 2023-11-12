@@ -1,3 +1,7 @@
+#
+# Required variables
+#
+
 variable "project_id" {
   type        = string
   description = "GCP Project ID to be used for resource deployment"
@@ -7,6 +11,11 @@ variable "region" {
   type        = string
   description = "GCP region to be used for deployment"
 }
+
+#
+# Optional variables
+#
+
 variable "name_prefix" {
   type        = string
   default     = "cloud-run-public"
