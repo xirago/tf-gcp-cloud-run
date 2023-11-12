@@ -1,3 +1,6 @@
+# Global load-balancer resources for Cloud Run Service
+# Ref: https://cloud.google.com/load-balancing/docs/https/setup-global-ext-https-serverless
+
 resource "google_compute_global_address" "this" {
   name       = "${var.name_prefix}-glb-ip"
   ip_version = "IPV4"
@@ -6,6 +9,10 @@ resource "google_compute_global_address" "this" {
 resource "google_compute_backend_service" "cloud_run" {
   name                  = "${var.name_prefix}-cloud-run"
   load_balancing_scheme = "EXTERNAL_MANAGED"
+
+  log_config {
+    enable = true
+  }
 
   backend {
     group = google_compute_region_network_endpoint_group.cloud_run.id
