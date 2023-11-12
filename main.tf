@@ -1,3 +1,5 @@
+# Define Cloud Run Service & Network Endpoint Group
+
 resource "google_cloud_run_v2_service" "this" {
   name     = "${var.name_prefix}-vm-demo"
   location = var.region

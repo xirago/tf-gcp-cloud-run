@@ -1,6 +1,8 @@
 terraform {
   required_version = "~>1.6.0"
 
+  # GCS backend config is env. specific and should be defined in an external file
+  # https://developer.hashicorp.com/terraform/language/settings/backends/configuration#partial-configuration
   backend "gcs" {}
 
   required_providers {
