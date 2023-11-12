@@ -1,11 +1,11 @@
-# Define Cloud Run Service & Network Endpoint Group
+# Define regional Cloud Run Service & Network Endpoint Group
+# Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_v2_service
 
 resource "google_cloud_run_v2_service" "this" {
   name     = "${var.name_prefix}-vm-demo"
   location = var.region
 
-  # TODO: Remove unfiltered PUBLIC access
-  ingress = "INGRESS_TRAFFIC_ALL"
+  ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 
   template {
     containers {
