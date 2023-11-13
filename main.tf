@@ -5,6 +5,7 @@ resource "google_cloud_run_v2_service" "this" {
   name     = "${var.name_prefix}-vm-demo"
   location = var.region
 
+  # Restrict ingress to load balancer only
   ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 
   template {

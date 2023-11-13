@@ -56,8 +56,9 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | A task designation to be used a prefix in resource naming | `string` | `"cloud-run-public"` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP Project ID to be used for resource deployment | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | GCP region to be used for deployment | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | GCP region to be used for deployment | `string` | `"us-central1"` | no |
 | <a name="input_run_container_url"></a> [run\_container\_url](#input\_run\_container\_url) | URL of the Container image in Google Container Registry or Google Artifact Registry | `string` | `"us-docker.pkg.dev/cloudrun/container/hello"` | no |
+| <a name="input_run_max_instance_count"></a> [run\_max\_instance\_count](#input\_run\_max\_instance\_count) | Maximum number of serving instances that this resource should have | `number` | `5` | no |
 | <a name="input_tls_cert_domains"></a> [tls\_cert\_domains](#input\_tls\_cert\_domains) | A list of DNS names to be added to the TLS certificate. The Common Name will be set to the first string entry | `list(string)` | <pre>[<br>  "www.self-signed-tls.uk"<br>]</pre> | no |
 
 ## Outputs
