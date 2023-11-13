@@ -65,6 +65,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cloud_run_url"></a> [cloud\_run\_url](#output\_cloud\_run\_url) | URI of the Cloud Run service. This is needed to set the audience for token generation |
+| <a name="output_gcp_service_account_email"></a> [gcp\_service\_account\_email](#output\_gcp\_service\_account\_email) | Email ID of the GSA that can invoke Cloud Run service |
 | <a name="output_glb_load_balancer_url"></a> [glb\_load\_balancer\_url](#output\_glb\_load\_balancer\_url) | n/a |
 | <a name="output_hide_private_key"></a> [hide\_private\_key](#output\_hide\_private\_key) | Hide the generated private key for TLS cert. |
 <!-- END_TF_DOCS -->
