@@ -2,15 +2,61 @@
 
 ## What
 
-Terraform repository which defines a GCP Cloud Run service with a public Global Load Balancer
+Terraform repository that defines a GCP Cloud Run service with a public Global Load Balancer with access limited to an authorised Google Service Account.
+
+Terraform & supporting code can be deployed to multiple Google Projects, but expects only a single deployment in a single project.
+
+Terraform state is stored remotely in a GCS bucket in the same project.
+
+Global load balancer is terminated with a self signed TLS certificate, as no matching DNS domain is defined. This can be upgraded to a Google managed (and signed) certificate when required.
+
+Cloud Run endpoint access is restricted:
+
+- Ingress traffic is limited to [internal load balancer traffic](https://cloud.google.com/run/docs/securing/ingress#settings) only
+- IAM authenticated access granted only to a managed Google Service Account. To leverage this account to access the endpoint [see below](#).
 
 ## Why
 
-To demonstrate an `hello world` Cloud Run service with a global public load balancer
+To demonstrate an `hello world` Cloud Run service with a global public load balancer with (relatively) secure access via Google Service Account.
+
+As this repository is public, no private or sensitive information should be hosted in it, this includes variables values.
 
 ## How
 
- TODO: Add deployment steps
+### Deploying this configuration
+
+A [wrapper script](bin/cloud-shell-deploy.sh) has been provided to simplify the initial configuration and deployment of this terraform code and allow for a single command deployment.
+
+#### Pre-requisites
+
+- **The wrapper script expects to be executed in Google Cloud Shell**
+
+#### Deployment steps
+
+1. Open a [Google Cloud Console](https://console.cloud.google.com) and select (or create) a GCP project for this deployment
+2. Open a [Google Cloud Shell](https://cloud.google.com/shell/docs/launching-cloud-shell) terminal session
+3. In the terminal run the following commands to clone this repository and execute the script:
+
+```bash
+git clone https://github.com/xirago/tf-gcp-cloud-run.git
+
+# Change into repository root folder
+cd tf-gcp-cloud-run
+
+# Execute wrapper script from root folder
+./bin/cloud-shell-deploy.sh
+```
+
+The script will run some pre-flight checks and if needed:
+
+- Create a GCS bucket for remote state storage
+- Create a local state backend file configured for the GCS bucket
+- Create a project specific variable file for terraform to use
+- Run a `terraform init` with the GCS backend config file
+- Run a `terraform plan` with the project specific `tfvars` file
+- Request confirmation of the planned changes
+
+
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
