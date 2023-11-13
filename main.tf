@@ -11,6 +11,12 @@ resource "google_cloud_run_v2_service" "this" {
     containers {
       image = var.run_container_url
     }
+
+    scaling {
+      # Set min count to 1 to prevent spurious cold starts
+      min_instance_count = 1
+      max_instance_count = var.run_max_instance_count
+    }
   }
 }
 

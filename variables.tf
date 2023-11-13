@@ -16,6 +16,12 @@ variable "region" {
 # Optional variables
 #
 
+variable "run_max_instance_count" {
+  type        = number
+  default     = 5
+  description = "Maximum number of serving instances that this resource should have"
+}
+
 variable "name_prefix" {
   type        = string
   default     = "cloud-run-public"
