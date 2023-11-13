@@ -117,14 +117,6 @@ function tf_initialise {
   terraform init --backend-config $BACKEND_FILE_PATH
 }
 
-function tf_show_plan {
-
-  # Set project_id from Cloud Shell config
-  export TF_VAR_project_id=$GCP_PROJECT
-
-  terraform plan -out script.plan
-}
-
 # Main script entrypoint
 
 # Pre-flight checks
@@ -144,7 +136,7 @@ fi
 tf_initialise
 
 # Run terraform plan & save output locally
-tf_show_plan
+terraform plan --var-file $TFVARS_FILE_PATH -out script.plan
 
 # Require user confirmation to deploy changes!
 log_step "Type ${YELLOW}DEPLOY${GREEN} to confirm deployment:"
