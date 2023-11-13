@@ -7,14 +7,15 @@ variable "project_id" {
   description = "GCP Project ID to be used for resource deployment"
 }
 
-variable "region" {
-  type        = string
-  description = "GCP region to be used for deployment"
-}
-
 #
 # Optional variables
 #
+
+variable "region" {
+  type        = string
+  default     = "us-central1"
+  description = "GCP region to be used for deployment"
+}
 
 variable "run_max_instance_count" {
   type        = number
