@@ -18,12 +18,12 @@ resource "tls_private_key" "this" {
 resource "tls_self_signed_cert" "this" {
   private_key_pem = tls_private_key.this.private_key_pem
 
-  # Certificate expires after 30 days
-  validity_period_hours = 24
+  # Certificate expires after 7 days
+  validity_period_hours = 168
 
-  # Generate a new certificate if Terraform is run within 7
+  # Generate a new certificate if Terraform is run within 5
   # days of the certificate's expiration time.
-  early_renewal_hours = 23
+  early_renewal_hours = 120
 
   # Reasonable set of uses for a server SSL certificate.
   allowed_uses = [
