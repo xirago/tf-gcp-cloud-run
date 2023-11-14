@@ -47,7 +47,7 @@ cd tf-gcp-cloud-run
 ./bin/cloud-shell-deploy.sh
 ```
 
-The script will run some pre-flight checks and if needed:
+The script will run some pre-flight checks ( and create backend config if needed):
 
 - Create a GCS bucket for remote state storage
 - Create a local state backend file configured for the GCS bucket
@@ -55,8 +55,54 @@ The script will run some pre-flight checks and if needed:
 - Run a `terraform init` with the GCS backend config file
 - Run a `terraform plan` with the project specific `tfvars` file
 - Request confirmation of the planned changes
+- Once confirmed, deploy the [resources listed below](#resources)
 
+On completion, the script will output the file paths for:
 
+- Project specific GCS remote backend config
+- Project specific variables file
+
+These will be in the format: `./environments/`**$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID**`.[backend.hcl|.tfvars]`
+
+#### Making changes & manual apply
+
+Values for [optional variables](#inputs) can be added to the generated `*.tfvars` file and will override those given in the default config.
+
+Changes can be applied manually without the script by providing the backend config file at `init` and the project specific variables file at `plan`
+
+For example:
+
+```bash
+
+# Initialise terraform with remote backend
+terraform init --backend-config ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID.backend.hcl
+
+# Execute a terraform destroy plan
+terraform plan --var-file ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID.tfvars --out my_changes.plan
+```
+
+#### Delete TF resources
+
+To reverse the terraform deployment use the above files to re-initialise & execute a destroy plan.
+Substitute the values returned by the deployment script for the values shown below:
+
+```bash
+# From inside the repository root folder
+
+# Clean any local stale state
+rm -rf ./terraform
+
+# Initialise terraform with remote backend
+terraform init --backend-config ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID.backend.hcl
+
+# Execute a terraform destroy plan
+terraform plan --destroy --var-file ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID.tfvars --out destroy.plan
+
+# Examine the destroy plan to confirm, then delete with
+terraform apply destroy.plan
+```
+
+**Note:** Thi will not delete the GCS bucket, the (now) empty statefile or the backend config & vars files on the Cloud Shell host
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
