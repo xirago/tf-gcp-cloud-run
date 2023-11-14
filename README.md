@@ -13,7 +13,7 @@ Global load balancer is terminated with a self signed TLS certificate, as no mat
 Cloud Run endpoint access is restricted:
 
 - Ingress traffic is limited to [internal load balancer traffic](https://cloud.google.com/run/docs/securing/ingress#settings) only
-- IAM authenticated access granted only to a managed Google Service Account. To leverage this account to access the endpoint [see below](#).
+- IAM authenticated access granted only to a managed Google Service Account. To leverage this account to access the endpoint [see below](#confirming-a-successful-deployment).
 
 ## Why
 
@@ -35,7 +35,7 @@ A [wrapper script](bin/cloud-shell-deploy.sh) has been provided to simplify the 
 
 1. Open a [Google Cloud Console](https://console.cloud.google.com) and select (or create) a GCP project for this deployment
 2. Open a [Google Cloud Shell](https://cloud.google.com/shell/docs/launching-cloud-shell) terminal session
-3. In the terminal run the following commands to clone this repository and execute the script:
+3. In the terminal run the following commands to clone this repository and execute the script. (You may be required to authorise Cloud Shell to perform these operations)
 
 ```bash
 git clone https://github.com/xirago/tf-gcp-cloud-run.git
@@ -81,7 +81,31 @@ terraform init --backend-config ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJEC
 terraform plan --var-file ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PROJECT_ID.tfvars --out my_changes.plan
 ```
 
-#### Delete TF resources
+#### Confirming a successful deployment
+
+Once deployed, allow a few minuted for the provisioning to complete before attempting to interact with the GLB endpoint.
+
+To access the Cloud Run service endpoint you will need to provide a authorisation token header.
+This can be done locally, in Cloud Shell or with a 3rd party tool.
+You will need to provide the following values which were output by terraform:
+
+- `gcp_service_account_email` - GCP Service account email
+- `glb_load_balancer_url`     - Global Load Balancer Endpoint URL/IP
+
+Substitute (or set env. vars) for these values in the commands below
+
+**NOTE:** Your terminal session must be authenticated with gcloud CLI AND your user must have IAM role "Service Account Token Creator" `(roles/iam.serviceAccountTokenCreator)`
+
+```bash
+# From any gcloud authenticated shell terminal
+#
+export TOKEN=$(gcloud auth print-identity-token --impersonate-service-account $gcp_service_account_email)
+
+# Use curl to present the auth. header and token and retrieve the hello world page
+curl -k -H "Authorization: Bearer ${TOKEN}" $glb_load_balancer_url
+```
+
+### Delete TF resources
 
 To reverse the terraform deployment use the above files to re-initialise & execute a destroy plan.
 Substitute the values returned by the deployment script for the values shown below:
@@ -102,7 +126,7 @@ terraform plan --destroy --var-file ./environments/$GOOGLE_PROJECT_ID/$GOOGLE_PR
 terraform apply destroy.plan
 ```
 
-**Note:** Thi will not delete the GCS bucket, the (now) empty statefile or the backend config & vars files on the Cloud Shell host
+**Note:** This will not delete the GCS bucket, the (now) empty statefile or the backend config & vars files on the Cloud Shell host
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
